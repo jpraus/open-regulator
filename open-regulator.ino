@@ -28,12 +28,6 @@
 #define BOILER_IN 3
 #define BOILER_OUT 5
 
-// Shift register for digital OUT (74HC595)
-#define LATCH_PIN 8
-#define CLOCK_PIN 9
-#define DATA_PIN 6
-#define OE_PIN 7
-
 // Analog multiplexor (4051N)
 #define IN_PIN A6
 #define A_PIN A3
