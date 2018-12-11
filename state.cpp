@@ -2,7 +2,7 @@
 #include "state.h"
 #include <EEPROM.h>
 
-#define VERSION 2 // this must be written on first byte of memory to verify that memory can be read from
+#define VERSION 1 // this must be written on first byte of memory to verify that memory can be read from
 
 struct Data {
   unsigned long dhwNotRunMs;
@@ -47,4 +47,11 @@ bool STATE::load() {
     return true;
   }
   return false;
+}
+
+void STATE::logMessage(String message) {
+  for (int i = LOG_LINES - 1; i > 0 - 1; i--) {
+    logMessages[i] = logMessages[i - 1];
+  }
+  logMessages[0] = message;
 }

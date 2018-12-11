@@ -1,9 +1,6 @@
 #include "regulator.h"
 #include "ioDriver.h"
 
-#define TERM_R25 2000 // referencni odpor termistoru pri 25°C
-#define TERM_R 2192 // hodnota odporu v delici s termistorem
-
 #define PIN_PRESSURE A0
 
 #define PIN_T1 A1 // built-in temp
@@ -13,7 +10,21 @@
 #define PIN_T5 A5
 #define PIN_T6 A6
 
+#define PIN_RELAY1 36
+#define PIN_RELAY2 35
+#define PIN_RELAY3 34
+#define PIN_RELAY4 33 // valve triac 1
+#define PIN_RELAY5 32 // valve triac 2
+
+#define PIN_ROTARY_ENC_1 7
+#define PIN_ROTARY_ENC_2 6
+#define PIN_ROTARY_ENC_BUTTON 5
+
+#define TERM_R25 2000 // referencni odpor termistoru pri 25°C
+#define TERM_R 2192 // hodnota odporu v delici s termistorem
+
 byte tempPins[] = {PIN_T1, PIN_T2, PIN_T3, PIN_T4, PIN_T5, PIN_T6};
+byte relayPins[] = {PIN_RELAY1, PIN_RELAY2, PIN_RELAY3, PIN_RELAY4, PIN_RELAY5};
 
 void IO_DRIVER::setup() {
   pinMode(PIN_PRESSURE, INPUT);

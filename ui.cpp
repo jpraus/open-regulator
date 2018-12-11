@@ -27,9 +27,19 @@ void UI::draw() {
   if (_redraw) {
     _lcd.firstPage();
     do {
-      drawSchemaScreen();
+      drawLogScreen();
     } while (_lcd.nextPage());
     _redraw = false;
+  }
+}
+
+void UI::drawLogScreen() {
+  _lcd.setFont(u8g2_font_5x8_mf);
+  _lcd.setColorIndex(1);
+
+  for (int i = 0; i < LOG_LINES; i ++) {
+    _lcd.setCursor(0, i * 8 + 8); 
+    _lcd.print(_state.logMessages[i]);
   }
 }
 

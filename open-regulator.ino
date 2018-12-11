@@ -82,6 +82,8 @@ void loop() {
 }
 
 void doEverySecond() {
+  state.logMessage(String(millis()));
+  
   // every second ticks
   ui.update();
 

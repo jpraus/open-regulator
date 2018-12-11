@@ -19,7 +19,9 @@ class UI {
     boolean _redraw = true;
     byte _frame = 0;
 
+    void drawLogScreen();
     void drawSchemaScreen();
+
     void drawAccumulator(u8g2_uint_t x, u8g2_uint_t y);
     void drawBoiler(u8g2_uint_t x, u8g2_uint_t y);
     void drawTemperature(u8g2_uint_t x, u8g2_uint_t y, int temp);
