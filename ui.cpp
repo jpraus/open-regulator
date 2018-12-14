@@ -1,4 +1,5 @@
 #include "regulator.h"
+#include "log.h"
 #include "ui.h"
 #include <U8g2lib.h>
 
@@ -39,7 +40,7 @@ void UI::drawLogScreen() {
 
   for (int i = 0; i < LOG_LINES; i ++) {
     _lcd.setCursor(0, i * 8 + 8); 
-    _lcd.print(_state.logMessages[i]);
+    _lcd.print(LOG::logMessages[i]);
   }
 }
 

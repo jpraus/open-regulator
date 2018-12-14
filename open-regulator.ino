@@ -82,7 +82,8 @@ void loop() {
 }
 
 void doEverySecond() {
-  state.logMessage(String(millis()));
+  logMessage(String(millis()));
+  logMessage(String(digitalRead(5)));
   
   // every second ticks
   ui.update();

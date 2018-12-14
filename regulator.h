@@ -2,6 +2,7 @@
 #define REGULATOR_H
 
 #include "Arduino.h"
+#include "log.h"
 
 #define VCC 6.3 // napajeci napeti delice
 #define DEBUG 1

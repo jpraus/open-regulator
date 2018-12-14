@@ -1,8 +1,6 @@
 #ifndef STATE_H
 #define STATE_H
 
-#define LOG_LINES 8
-
 struct BoilerState {
   bool fault;
   bool chOn;
@@ -60,14 +58,11 @@ class STATE {
 
     void store();
     bool load();
-    void logMessage(String message);
 
     BoilerState boiler; // read-only
     ThermostatState thermostat; // read-only
     Accumulator accumulator; // read-write
     Config config; // consts
-
-    String logMessages[LOG_LINES];
 };
 
 #endif

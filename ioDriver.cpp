@@ -31,6 +31,12 @@ void IO_DRIVER::setup() {
   for (int i = 0; i < 6; i++) {
     pinMode(tempPins[i], INPUT); // TODO: setup only connected ones?
   }
+  pinMode(PIN_ROTARY_ENC_BUTTON, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_BUTTON), IO_DRIVER::_rotaryEncoderButtonISR, RISING);
+}
+
+void IO_DRIVER::_rotaryEncoderButtonISR() {
+  logMessage("Click");
 }
 
 void IO_DRIVER::valve(int8_t direction) {

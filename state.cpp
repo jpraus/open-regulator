@@ -31,6 +31,7 @@ void STATE::store() {
 bool STATE::load() {
   Data data;
   byte versionCode; 
+  
 
   versionCode = EEPROM.read(0); // version
   if (versionCode == VERSION) {
@@ -47,11 +48,4 @@ bool STATE::load() {
     return true;
   }
   return false;
-}
-
-void STATE::logMessage(String message) {
-  for (int i = LOG_LINES - 1; i > 0 - 1; i--) {
-    logMessages[i] = logMessages[i - 1];
-  }
-  logMessages[0] = message;
 }

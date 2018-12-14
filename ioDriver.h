@@ -2,6 +2,7 @@
 #define IO_DRIVERS_H
 
 #include "regulator.h"
+//#include <Encoder.h>
 
 class IO_DRIVER {
   public:
@@ -15,6 +16,7 @@ class IO_DRIVER {
 
   private:
     static float _analogKtyToCelsius(float analogValue);
+    static void _rotaryEncoderButtonISR();
 };
 
 #endif
