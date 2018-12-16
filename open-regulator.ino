@@ -14,49 +14,25 @@
 #include "accumulatorCtrl.h"
 //#include "uplink.h"
 
-#define ACTY_LED 13
-
-// display 128x64 (radic ST7920)
-#define DSPY_BCKLIGHT 28
-#define DSPY_EN 29
-#define DSPY_RW 30
-#define DSPY_RS 31
-
-// OpenTherm Boiler/Thermostat protocol
-#define THERMOSTAT_IN 2
-#define THERMOSTAT_OUT 4
-#define BOILER_IN 3
-#define BOILER_OUT 5
-
-// Analog multiplexor (4051N)
-#define IN_PIN A6
-#define A_PIN A3
-#define B_PIN A4
-#define C_PIN A5
-
-// Pressure sensor
-#define PRESSURE_SENSOR_PIN A7
-
 int everySecondTimer = 0;
 unsigned long deltaMsRef = 0;
 
 IO_DRIVER io;
 STATE state;
-ACCUMULATOR_CTRL accumulatorCtrl(&io, &state);
-OT_CONTROLLER openthermCtrl(&state, &accumulatorCtrl, THERMOSTAT_IN, THERMOSTAT_OUT, BOILER_IN, BOILER_OUT);
+//ACCUMULATOR_CTRL accumulatorCtrl(&io, &state);
+//OT_CONTROLLER openthermCtrl(&state, &accumulatorCtrl, THERMOSTAT_IN, THERMOSTAT_OUT, BOILER_IN, BOILER_OUT);
 U8G2_ST7920_128X64_1_SW_SPI lcd(U8G2_R0, /* clock=*/ DSPY_EN, /* data=*/ DSPY_RW, /* CS=*/ DSPY_RS, /* reset=*/ U8X8_PIN_NONE);
 UI ui(&lcd, &state, DSPY_BCKLIGHT);
 //UPLINK uplink(&state);
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(PRESSURE_SENSOR_PIN, INPUT);
+  //Serial.begin(115200);
   pinMode(ACTY_LED, OUTPUT);
 
   state.load();
   io.setup();
-  accumulatorCtrl.setup();
-  openthermCtrl.setup();
+  //accumulatorCtrl.setup();
+  //openthermCtrl.setup();
   ui.setup();
   //uplink.setup();
 
@@ -66,8 +42,8 @@ void setup() {
 
 void loop() {
   int deltaMs = getDeltaMs();
-  openthermCtrl.update(deltaMs);
-  accumulatorCtrl.update(deltaMs);
+  //openthermCtrl.update(deltaMs);
+  //accumulatorCtrl.update(deltaMs);
 
   everySecondTimer -= deltaMs;
   if (everySecondTimer <= 0) {
@@ -82,8 +58,7 @@ void loop() {
 }
 
 void doEverySecond() {
-  logMessage(String(millis()));
-  logMessage(String(digitalRead(5)));
+  logMessage(String(digitalRead(PIN_ROTARY_ENC_BUTTON)));
   
   // every second ticks
   ui.update();
