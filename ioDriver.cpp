@@ -28,11 +28,26 @@ void IO_DRIVER::setup() {
 
   // rotary encoder
   pinMode(PIN_ROTARY_ENC_BUTTON, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_BUTTON), IO_DRIVER::_rotaryEncoderButtonISR, RISING); // 0 = pressed
+  pinMode(PIN_ROTARY_ENC_1, INPUT_PULLUP);
+  pinMode(PIN_ROTARY_ENC_2, INPUT_PULLUP);
+
+  cli(); 
+  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_BUTTON), IO_DRIVER::_rotaryEncoderButtonISR, FALLING); // 0 = pressed
+  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_1), IO_DRIVER::_rotaryEncoderAISR, FALLING); // 0 = pressed
+  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_2), IO_DRIVER::_rotaryEncoderBISR, FALLING); // 0 = pressed
+  sei();
 }
 
 void IO_DRIVER::_rotaryEncoderButtonISR() {
   logMessage("Click");
+}
+
+void IO_DRIVER::_rotaryEncoderAISR() {
+  logMessage("Encoder A");
+}
+
+void IO_DRIVER::_rotaryEncoderBISR() {
+  logMessage("Encoder B");
 }
 
 void IO_DRIVER::valve(int8_t direction) {

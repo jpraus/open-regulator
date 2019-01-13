@@ -17,6 +17,8 @@ class IO_DRIVER {
   private:
     static float _analogKtyToCelsius(float analogValue);
     static void _rotaryEncoderButtonISR();
+    static void _rotaryEncoderAISR();
+    static void _rotaryEncoderBISR();
 };
 
 #endif

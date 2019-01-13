@@ -15,8 +15,6 @@ class UI {
     U8G2_ST7920_128X64_1_SW_SPI &_lcd;
     STATE &_state;
     byte _backlightPin;
-
-    boolean _redraw = true;
     byte _frame = 0;
 
     void drawLogScreen();

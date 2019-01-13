@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-#define LOG_LINES 8
+#define LOG_LINES 9
 
 #define logMessage(x) LOG::__logMessage(x)
 

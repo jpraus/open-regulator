@@ -16,30 +16,24 @@ void UI::setup() {
   digitalWrite(_backlightPin, OUTPUT);
   _lcd.begin();
   _lcd.setColorIndex(1);
-  _redraw = true;
 }
 
 void UI::update() {
   _frame = (_frame >= 1) ? 0 : _frame + 1;
-  _redraw = true;
-}
+  _lcd.firstPage();
 
-void UI::draw() {
-  if (_redraw) {
-    _lcd.firstPage();
-    do {
-      drawLogScreen();
-    } while (_lcd.nextPage());
-    _redraw = false;
-  }
+  do {
+    drawLogScreen();
+    //drawSchemaScreen();
+  } while (_lcd.nextPage());
 }
 
 void UI::drawLogScreen() {
-  _lcd.setFont(u8g2_font_5x8_mf);
+  _lcd.setFont(u8g2_font_5x7_mf);
   _lcd.setColorIndex(1);
 
   for (int i = 0; i < LOG_LINES; i ++) {
-    _lcd.setCursor(0, i * 8 + 8); 
+    _lcd.setCursor(0, i * 7 + 7); 
     _lcd.print(LOG::logMessages[i]);
   }
 }

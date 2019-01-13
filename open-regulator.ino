@@ -1,5 +1,3 @@
-
-
 /**
  * TODO: 
  * - pri prekroceni urciteho tlaku (2.6?) spustit topeni naplno aby se co nejvic vychladila voda a snizil se tlak
@@ -16,6 +14,8 @@
 
 int everySecondTimer = 0;
 unsigned long deltaMsRef = 0;
+
+byte actyLed = LOW;
 
 IO_DRIVER io;
 STATE state;
@@ -38,6 +38,8 @@ void setup() {
 
   deltaMsRef = millis();
   everySecondTimer = 1000;
+
+  logMessage(String("OpenRegulator 0.1"));
 }
 
 void loop() {
@@ -48,17 +50,16 @@ void loop() {
   everySecondTimer -= deltaMs;
   if (everySecondTimer <= 0) {
     everySecondTimer += 1000;
-    digitalWrite(ACTY_LED, HIGH);
     doEverySecond();
-    digitalWrite(ACTY_LED, LOW);
+    actyLed = (actyLed == HIGH ? LOW : HIGH);
+    digitalWrite(ACTY_LED, actyLed);
   }
 
   //uplink.update(deltaMs);
-  ui.draw();
 }
 
 void doEverySecond() {
-  logMessage(String(digitalRead(PIN_ROTARY_ENC_BUTTON)));
+  //logMessage(String(digitalRead(PIN_ROTARY_ENC_BUTTON)));
   
   // every second ticks
   ui.update();
@@ -90,8 +91,4 @@ int getDeltaMs() {
   int deltaMs = time - deltaMsRef;
   deltaMsRef += deltaMs;
   return deltaMs;
-}
-
-float mapfloat(float x, float in_min, float in_max, float out_min, float out_max) {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
