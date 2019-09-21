@@ -5,10 +5,10 @@
 #define TERM_R 2192 // hodnota odporu v delici s termistorem
 
 #define TEMPS_COUNT 6
-#define RELAYS_COUNT 5
+#define RELAYS_COUNT 4
 
 byte tempPins[] = {PIN_T1, PIN_T2, PIN_T3, PIN_T4, PIN_T5, PIN_T6};
-byte relayPins[] = {PIN_RELAY1, PIN_RELAY2, PIN_RELAY3, PIN_RELAY4, PIN_RELAY5};
+byte relayPins[] = {PIN_RELAY1, PIN_RELAY2, PIN_RELAY3, PIN_RELAY4};
 
 void IO_DRIVER::setup() {
   byte i;
@@ -16,15 +16,14 @@ void IO_DRIVER::setup() {
   // temperature & pressure
   pinMode(PIN_PRESSURE, INPUT);
   for (i = 0; i < TEMPS_COUNT; i++) {
-    //pinMode(tempPins[i], INPUT); // TODO: setup only connected ones?
+    pinMode(tempPins[i], INPUT); // TODO: setup only connected ones?
   }
 
   // relays
   for (i = 0; i < RELAYS_COUNT; i++) {
-    //digitalWrite(relayPins[i], LOW);
-    //pinMode(relayPins[i], OUTPUT);
+    digitalWrite(relayPins[i], LOW);
+    pinMode(relayPins[i], OUTPUT);
   }
-  //pinMode(PIN_RELAY3, OUTPUT);
 
   // rotary encoder
   pinMode(PIN_ROTARY_ENC_BUTTON, INPUT_PULLUP);
@@ -32,35 +31,47 @@ void IO_DRIVER::setup() {
   pinMode(PIN_ROTARY_ENC_2, INPUT_PULLUP);
 
   cli(); 
-  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_BUTTON), IO_DRIVER::_rotaryEncoderButtonISR, FALLING); // 0 = pressed
-  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_1), IO_DRIVER::_rotaryEncoderAISR, FALLING); // 0 = pressed
-  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_2), IO_DRIVER::_rotaryEncoderBISR, FALLING); // 0 = pressed
+  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_BUTTON), IO_DRIVER::_rotaryEncoderButtonISR, FALLING); // inverted
+  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_1), IO_DRIVER::_rotaryEncoderAISR, FALLING); // inverted
+  attachInterrupt(digitalPinToInterrupt(PIN_ROTARY_ENC_2), IO_DRIVER::_rotaryEncoderBISR, FALLING); // inverted
   sei();
 }
 
 void IO_DRIVER::_rotaryEncoderButtonISR() {
-  logMessage("Click");
+  Serial.println("Click");
 }
 
+byte rotaryEncoderState = 0;
+
 void IO_DRIVER::_rotaryEncoderAISR() {
-  logMessage("Encoder A");
+  rotaryEncoderState = (rotaryEncoderState << 2) | B01;
+  if (rotaryEncoderState > 3) {
+    Serial.println(rotaryEncoderState);
+    rotaryEncoderState = 0;  
+  }
+  Serial.println("Encoder A");
 }
 
 void IO_DRIVER::_rotaryEncoderBISR() {
-  logMessage("Encoder B");
+  rotaryEncoderState = (rotaryEncoderState << 2) | B10;
+  if (rotaryEncoderState > 3) {
+    Serial.println(rotaryEncoderState);
+    rotaryEncoderState = 0;  
+  }
+  Serial.println("Encoder B");
 }
 
 void IO_DRIVER::valve(int8_t direction) {
-  //bitWrite(_value, SHIFT_BIT_VALVE_RIGHT, (direction < 0 ? 1 : 0));
-  //bitWrite(_value, SHIFT_BIT_VALVE_LEFT, (direction > 0 ? 1 : 0));
+  digitalWrite(PIN_RELAY3, direction < 0 ? 1 : 0); // TODO
+  digitalWrite(PIN_RELAY4, direction > 0 ? 1 : 0); // TODO
 }
 
 void IO_DRIVER::chPump(bool on) {
-  //bitWrite(_value, SHIFT_BIT_CH_PUMP, (on ? 1 : 0));
+  digitalWrite(PIN_RELAY1, on ? 1 : 0); // TODO
 }
 
 void IO_DRIVER::dhwPump(bool on) {
-  //bitWrite(_value, SHIFT_BIT_DHW_PUMP, (on ? 1 : 0));
+  digitalWrite(PIN_RELAY2, on ? 1 : 0); // TODO
 }
 
 float IO_DRIVER::readPressure() {

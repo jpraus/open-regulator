@@ -2,38 +2,38 @@
 #define STATE_H
 
 struct BoilerState {
-  bool fault;
-  bool chOn;
-  bool dhwOn;
-  bool flameOn;
-  float modulationLvl;
-  float feedTemp;
-  float returnTemp;
+  bool fault = false;
+  bool chOn = false;
+  bool dhwOn = false;
+  bool flameOn = false;
+  float modulationLvl = 0;
+  float feedTemp = 0;
+  float returnTemp = 0;
   unsigned long dhwTotalMs = 0; // how long DWH pump was running in total
   unsigned long chTotalMs = 0;  // how long CH pump was running in total
 };
 
 struct ThermostatState {
-  bool chOn;
-  bool dhwOn;
-  float outsideTemp;
-  float roomTemp;
-  float dhwTemp;
-  float chSetpoint;
-  float dhwSetpoint;
-  byte online; // OT online counter (0 = offline)
+  bool chOn = false;
+  bool dhwOn = false;
+  float outsideTemp = 0;
+  float roomTemp = 0;
+  float dhwTemp = 0;
+  float chSetpoint = 0;
+  float dhwSetpoint = 0;
+  byte online = 0; // OT online counter (0 = offline)
 };
 
 struct Accumulator {
-  bool chOn;
-  bool dhwOn;
-  float topTemp;
-  float bottomTemp;
-  float chTemp;
-  float returnTemp;
-  float valveAngle;
-  float pressure;
-  byte mode;
+  bool chOn = false;
+  bool dhwOn = false;
+  float topTemp = 0;
+  float bottomTemp = 0;
+  float chTemp = 0;
+  float returnTemp = 0;
+  float valveAngle = 0;
+  float pressure = 0;
+  byte mode = 0;
   unsigned long dhwTotalMs = 0; // how long DWH pump was running in total
   unsigned long chTotalMs = 0;  // how long CH pump was running in total
   unsigned long dhwNotRunMs = 0; // how long DHW pump was not running - used for anti-stop alogrithm

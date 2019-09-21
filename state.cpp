@@ -31,7 +31,6 @@ void STATE::store() {
 bool STATE::load() {
   Data data;
   byte versionCode; 
-  
 
   versionCode = EEPROM.read(0); // version
   if (versionCode == VERSION) {

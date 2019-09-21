@@ -1,7 +1,5 @@
 #include "regulator.h"
-#include "log.h"
 #include "ui.h"
-#include <U8g2lib.h>
 
 #define ALIGN_LEFT 0
 #define ALIGN_CENTER 2
@@ -23,8 +21,8 @@ void UI::update() {
   _lcd.firstPage();
 
   do {
-    drawLogScreen();
-    //drawSchemaScreen();
+    //drawLogScreen();
+    drawSchemaScreen();
   } while (_lcd.nextPage());
 }
 
@@ -32,9 +30,9 @@ void UI::drawLogScreen() {
   _lcd.setFont(u8g2_font_5x7_mf);
   _lcd.setColorIndex(1);
 
-  for (int i = 0; i < LOG_LINES; i ++) {
+  for (int i = 0; i < 9; i ++) { // log lines
     _lcd.setCursor(0, i * 7 + 7); 
-    _lcd.print(LOG::logMessages[i]);
+    //_lcd.print(LOG::logMessages[i]);
   }
 }
 

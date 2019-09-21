@@ -2,7 +2,6 @@
 #define REGULATOR_H
 
 #include "Arduino.h"
-#include "log.h"
 
 // constants
 #define VCC 6.3 // napajeci napeti delice
@@ -10,7 +9,7 @@
 #define SIGNUM(x) (x >= 0 ? 1 : -1)
 
 // definitions of I/O pins
-#define ACTY_LED 53
+#define ACTY_LED LED_BUILTIN
 
 // display 128x64 (radic ST7920)
 #define DSPY_BCKLIGHT 28
@@ -38,9 +37,8 @@
 // relays
 #define PIN_RELAY1 36
 #define PIN_RELAY2 35
-#define PIN_RELAY3 34
-#define PIN_RELAY4 33 // valve triac 1
-#define PIN_RELAY5 32 // valve triac 2
+#define PIN_RELAY3 34 // valve triac 1
+#define PIN_RELAY4 33 // valve triac 2
 
 // rotary encoder
 #define PIN_ROTARY_ENC_1 7

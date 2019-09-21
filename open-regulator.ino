@@ -7,15 +7,15 @@
 #include "regulator.h"
 #include "ui.h"
 #include "state.h"
-#include "otController.h"
+//#include "otController.h"
 #include "ioDriver.h"
-#include "accumulatorCtrl.h"
+//#include "accumulatorCtrl.h"
 //#include "uplink.h"
 
 int everySecondTimer = 0;
 unsigned long deltaMsRef = 0;
 
-byte actyLed = LOW;
+byte actyLed = HIGH;
 
 IO_DRIVER io;
 STATE state;
@@ -26,10 +26,13 @@ UI ui(&lcd, &state, DSPY_BCKLIGHT);
 //UPLINK uplink(&state);
 
 void setup() {
-  //Serial.begin(115200);
-  pinMode(ACTY_LED, OUTPUT);
+  Serial.begin(115200);
+  Serial.println("OpenRegulator 0.1");
 
-  state.load();
+  pinMode(ACTY_LED, OUTPUT);
+  digitalWrite(ACTY_LED, HIGH);
+
+  state.load(); // <- freezing the device
   io.setup();
   //accumulatorCtrl.setup();
   //openthermCtrl.setup();
@@ -38,8 +41,6 @@ void setup() {
 
   deltaMsRef = millis();
   everySecondTimer = 1000;
-
-  logMessage(String("OpenRegulator 0.1"));
 }
 
 void loop() {
@@ -59,8 +60,6 @@ void loop() {
 }
 
 void doEverySecond() {
-  //logMessage(String(digitalRead(PIN_ROTARY_ENC_BUTTON)));
-  
   // every second ticks
   ui.update();
 
@@ -69,7 +68,6 @@ void doEverySecond() {
   state.accumulator.returnTemp = io.readTemp(3);
   state.accumulator.topTemp = io.readTemp(4);
   state.accumulator.bottomTemp = io.readTemp(1);
-
   // read pressure sensor and map it to bars
   //state.accumulator.pressure = mapfloat(analogRead(PRESSURE_SENSOR_PIN), 118, 921, 0, 12);
 
@@ -77,9 +75,6 @@ void doEverySecond() {
   if (state.thermostat.online > 0) {
     state.thermostat.online --;
   }
-
-  // persist configuration data to EEPROM
-  //state.store();
 }
 
 int getDeltaMs() {
